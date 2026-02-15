@@ -1,0 +1,17 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    uses: web3-frozen/homelab-apps/.github/workflows/ci-container.yaml@main
+    with:
+      app-name: demo-frontend
+      image-name: demo-frontend
+      workload-dir: workloads/demo-app
+      node-version: "22"
+    secrets: inherit

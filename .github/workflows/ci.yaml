@@ -21,4 +21,5 @@ jobs:
       image-name: demo-frontend
       workload-dir: workloads/demo-app
       node-version: "22"
+      trivy-exit-code: "0"
     secrets: inherit

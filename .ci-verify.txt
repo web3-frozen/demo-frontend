@@ -1,0 +1,1 @@
+verify reusable workflow pins after dependabot bumps 20261109-1523

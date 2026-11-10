@@ -6,6 +6,8 @@ Production-ready React/TypeScript Task Manager UI.
 
 - **Kanban board** with To Do / In Progress / Done columns
 - **CRUD operations** via REST API
+- **Checkout flow** exercising the API, inventory, pricing, PostgreSQL,
+  Redis, and an external quote provider
 - **Auto-refresh** every 30 seconds
 - **Responsive** mobile-first design
 - **Nginx** with SPA fallback and API reverse proxy

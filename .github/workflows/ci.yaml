@@ -20,5 +20,5 @@ jobs:
       app-name: demo-frontend
       image-name: demo-frontend
       workload-dir: workloads/demo-app
-      node-version: "22"
+      node-version: "26.13.0"
     secrets: inherit

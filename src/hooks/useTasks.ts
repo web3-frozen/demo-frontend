@@ -24,9 +24,12 @@ export function useTasks() {
   }, []);
 
   useEffect(() => {
-    fetchTasks();
+    const initialLoad = window.setTimeout(fetchTasks, 0);
     const interval = setInterval(fetchTasks, 30000);
-    return () => clearInterval(interval);
+    return () => {
+      window.clearTimeout(initialLoad);
+      clearInterval(interval);
+    };
   }, [fetchTasks]);
 
   const createTask = async (req: CreateTaskRequest): Promise<Task> => {

@@ -1,3 +1,4 @@
+import { context, propagation, trace } from '@opentelemetry/api';
 import { W3CTraceContextPropagator } from '@opentelemetry/core';
 import { ZoneContextManager } from '@opentelemetry/context-zone';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
@@ -8,13 +9,13 @@ import {
   BatchSpanProcessor,
   ParentBasedSampler,
   TraceIdRatioBasedSampler,
-  WebTracerProvider,
-} from '@opentelemetry/sdk-trace-web';
+  TracerProvider,
+} from '@opentelemetry/sdk-trace';
 
 const serviceVersion = import.meta.env.VITE_GIT_SHA ?? 'dev';
 const samplingRatio = Number(import.meta.env.VITE_OTEL_SAMPLE_RATIO ?? '1');
 
-const provider = new WebTracerProvider({
+const provider = new TracerProvider({
   resource: resourceFromAttributes({
     'service.name': 'demo-frontend',
     'service.namespace': 'demo-app',
@@ -29,17 +30,18 @@ const provider = new WebTracerProvider({
   }),
   spanProcessors: [
     new BatchSpanProcessor(
-      new OTLPTraceExporter({
-        url: `${window.location.origin}/v1/traces`,
-      }),
+      {
+        exporter: new OTLPTraceExporter({
+          url: `${window.location.origin}/v1/traces`,
+        }),
+      },
     ),
   ],
 });
 
-provider.register({
-  contextManager: new ZoneContextManager(),
-  propagator: new W3CTraceContextPropagator(),
-});
+context.setGlobalContextManager(new ZoneContextManager());
+propagation.setGlobalPropagator(new W3CTraceContextPropagator());
+trace.setGlobalTracerProvider(provider);
 
 registerInstrumentations({
   instrumentations: [

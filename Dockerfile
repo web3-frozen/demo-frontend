@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1
 FROM node:26-alpine AS builder
 WORKDIR /app
 COPY package.json package-lock.json* ./
